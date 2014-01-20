@@ -1,0 +1,168 @@
+package me.Tommy.SimpleCommands;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Main extends JavaPlugin implements Listener {
+	
+	public final HashMap<Player, ArrayList<Block>> afkhashmap = new HashMap<Player, ArrayList<Block>>();
+	
+	public void onEnable() {
+		getLogger().info("SimpleCommands enabled!");
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(this, this);
+	}
+	
+	public void onDisable() {
+		getLogger().info("SimpleCommands disabled!");
+	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String Label, String[] args) {
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			if(cmd.getName().equalsIgnoreCase("afk")) {
+				if(afkhashmap.containsKey(player)) {
+					afkhashmap.remove(player);
+					Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Player " + ChatColor.RED + player.getName() + ChatColor.GRAY + " is no longer afk!");
+				} else {
+					afkhashmap.put(player, null);
+					Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Player " + ChatColor.RED + player.getName() + ChatColor.GRAY + " is now afk!");
+				}
+			}
+			if(cmd.getName().equalsIgnoreCase("spawnn")) {
+				if(player.isOp() == true) {
+					player.sendMessage(ChatColor.GOLD + "You do have permission to do this!");
+				} else {
+					player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
+				}
+			}
+			if(cmd.getName().equals("gm")) {
+				if(player.isOp() == true) {
+					if(args.length == 0) {
+						player.sendMessage(ChatColor.RED + "Too few arguments!");
+					}
+					if(args.length == 1) {
+						if(args[0].equalsIgnoreCase("c")) {
+							player.setGameMode(GameMode.CREATIVE);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "creative " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("s")) {
+							player.setGameMode(GameMode.SURVIVAL);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "survival " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("a")) {
+							player.setGameMode(GameMode.ADVENTURE);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "adventure " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("1")) {
+							player.setGameMode(GameMode.CREATIVE);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "creative " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("0")) {
+							player.setGameMode(GameMode.SURVIVAL);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "survival " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("2")) {
+							player.setGameMode(GameMode.ADVENTURE);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "adventure " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("creative")) {
+							player.setGameMode(GameMode.CREATIVE);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "creative " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("survival")) {
+							player.setGameMode(GameMode.SURVIVAL);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "survival " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+						if(args[0].equalsIgnoreCase("adventure")) {
+							player.setGameMode(GameMode.SURVIVAL);
+							player.sendMessage(ChatColor.GRAY + "Gamemode set to " + ChatColor.RED + "survlval " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+						}
+					}
+				} else {
+					player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
+				}
+			}
+			if(cmd.getName().equalsIgnoreCase("fly")) {
+				if(player.isOp() == true) {
+					if(player.getAllowFlight() == true) {
+						player.setAllowFlight(false);
+						player.sendMessage(ChatColor.GRAY + "Flying " + ChatColor.RED + "disabled " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+					} else {
+						player.setAllowFlight(true);
+						player.sendMessage(ChatColor.GRAY + "Flying " + ChatColor.RED + "enabled " + ChatColor.GRAY + "for player " + ChatColor.RED + player.getName());
+					}
+				} else {
+					player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
+				}
+			}
+			if(cmd.getName().equalsIgnoreCase("broadcast")) {
+				if(args.length == 1) {
+					Bukkit.getServer().broadcastMessage("§6§l[§5§lBroadcast§6§l]§f " + args[0]);
+				}
+				if(args.length == 0) {
+					player.sendMessage(ChatColor.RED + "Too few arguments!");
+				}
+			}
+			if(cmd.getName().equalsIgnoreCase("spawn")) {
+				if(player.isOp() == true) {
+					player.teleport(Bukkit.getServer().getWorld("world").getSpawnLocation());
+					player.sendMessage(ChatColor.GOLD + "Teleporting...");
+				} else {
+					player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
+				}
+			}
+			if(cmd.getName().equalsIgnoreCase("setspawn")) {
+				if(player.isOp() == true) {
+					double X = player.getLocation().getX();
+					double Y = player.getLocation().getY();
+					double Z = player.getLocation().getZ();
+					int x = (int)X;
+					int y = (int)Y;
+					int z = (int)Z;
+					Bukkit.getServer().getWorld("world").setSpawnLocation(x, y, z);
+					player.sendMessage(ChatColor.GREEN + "Spawn set!");
+				} else {
+					player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
+				}
+			}
+		} else {
+			sender.sendMessage(ChatColor.RED + "You must be a player to do this!");
+		}
+		return false;
+	}
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onMove (PlayerMoveEvent e) {
+		Player player = e.getPlayer();
+		if(afkhashmap.containsKey(player)) {
+			Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Player " + ChatColor.RED + player.getName() + ChatColor.GRAY + " is no longer afk!");
+			afkhashmap.remove(player);
+		} else {
+			//do nothing
+		}
+	}
+	public void onGameModeChange (PlayerGameModeChangeEvent e) {
+		Player player = e.getPlayer();
+		if(player.isOp() == false) {
+			e.setCancelled(true);
+		} else {
+			// do nothing
+		}
+	}
+}

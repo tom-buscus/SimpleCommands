@@ -45,13 +45,6 @@ public class Main extends JavaPlugin implements Listener {
 					Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Player " + ChatColor.RED + player.getName() + ChatColor.GRAY + " is now afk!");
 				}
 			}
-			if(cmd.getName().equalsIgnoreCase("spawnn")) {
-				if(player.isOp() == true) {
-					player.sendMessage(ChatColor.GOLD + "You do have permission to do this!");
-				} else {
-					player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
-				}
-			}
 			if(cmd.getName().equals("gm")) {
 				if(player.isOp() == true) {
 					if(args.length == 0) {
